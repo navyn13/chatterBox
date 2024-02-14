@@ -70,8 +70,5 @@ npm start
 
 ## Credits
 
-- This project was developed by [Your Name].
+- This project was developed by Naveen Krishna Gupta.
 
-## License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
