@@ -1,0 +1,53 @@
+.Signup{
+    background-color: #4e4e4e;
+    min-height: 100vh;
+}
+.Signup_box{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    background-color: #888888;
+    height: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 15px;
+}
+.Signup_box > p{
+    font-size: large;
+}
+.Signup_box>button{
+    background-color: #4e4e4e;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    color: rgb(177, 177, 177);
+}
+.Signup_box>button:hover{
+    background-color: #707070;
+    color: rgb(31, 31, 31); 
+}
+.Signup_box>input{
+    height: 40px;
+    margin: 10px 0px;
+    padding: 0px 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(169, 169, 169);
+    border-radius: 5px;
+}
+.Signup{
+    padding: 20px;
+}
+.logo_box{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+.logo_box  img{
+    height: 100px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}

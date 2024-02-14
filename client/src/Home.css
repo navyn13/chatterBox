@@ -1,0 +1,43 @@
+.Home{
+    background-color: #f8f6ea;
+    max-height: max-content;
+    height: 100vh;
+    display: flex;
+    
+}
+.videos_grid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#home_img{
+    width: 60%;
+    height: 100vh;
+    border-radius: 20px;
+}
+.home_intro{
+    width: 40%;
+    padding: 30px;
+
+}
+.tutorial{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 300px;
+
+}
+.tutorial p{
+    color: rgb(240, 145, 73);
+    font-weight: 500;
+    font-size: 1.2em;
+}
+.btn_live{
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+.tutorial p , h3{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
