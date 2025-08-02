@@ -13,44 +13,44 @@ function Signup() {
   const [imgAddress, setImgAddress] = useState("")
   const navigate = useNavigate();
   const [{ isAuth }, dispatch] = useStateValue();
-  async function handleSubmit() {
+  function handleSubmit() {
     const formData = new FormData();
     formData.append('image', pfp)
-    try {
-      const imgUrl = await axios.post('/profile', formData, {
-        headers: {
-          "Content-Type": 'multipart/form-data',
-        },
-      })
-      console.log(imgUrl.data.pfp)
-      setImgAddress(imgUrl.data.pfp)
-      console.log(imgAddress)
-
-
+    axios.post('/profile', formData, {
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    }).then(response => {
+      setImgAddress(response.data.pfp);
       const userData = {
-        username, email, password, imgAddress,
-      }
-      const response = await axios.post('/signup', userData);
-      const { token } = response.data;
-      localStorage.setItem("jwtToken", token);
-      dispatch({
-        type: "SET_AUTH",
-        isAuth: true,
+        username,
+        email,
+        password,
+        imgAddress: response.data.pfp,
+      };
+      axios.post('/signup', userData).then(response => {
+        const { token } = response.data;
+        localStorage.setItem("jwtToken", token);
+        dispatch({
+          type: "SET_AUTH",
+          isAuth: true,
+        });
+        dispatch({
+          type: "SET_USER",
+          user: userData
+        });
+        navigate('/');
+      }).catch(error => {
+        console.log('Error in signup:', error);
       });
-      dispatch({
-        type: "SET_USER",
-        user: userData
-      })
-      navigate('/')
-    }
-    catch (error) {
-      console.log('Error: ', error)
-    }
+    }).catch(error => {
+      console.log('Error in profile upload:', error);
+    });
   }
   return (
     <div className="Signup">
       <div className="logo_box">
-        <Link to={'/'}><img src="https://i.imgur.com/m6GZ6jx.png"></img></Link>
+        <Link to={'/'}><img src="https://i.imgur.com/oN050gi.png"></img></Link>
       </div>
       <div className="Signup_box">
         <p>Username:</p>

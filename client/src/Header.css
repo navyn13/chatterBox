@@ -1,4 +1,4 @@
-.Header{
+.Header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -6,37 +6,56 @@
     padding-right: 5px;
     background-color: rgb(43, 43, 43);
     height: 50px;
-}
-.logo > img{
+  }
+  
+  .logo > img {
     height: 50px;
     width: 150px;
-}
-.search_box{
+  }
+  
+  .search_box {
     display: flex;
     align-items: center;
-}
-.search_bar{
+  }
+  
+  .search_bar {
     height: 40px;
     width: 200px;
     border: 1px solid rgb(79, 79, 79);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 0px 10px;
-    font-size:medium;
+    font-size: medium;
     background-color: rgba(255, 255, 255, 0);
     color: rgb(187, 187, 187);
     outline: none;
-    
-}
-
-.features{
+  }
+  
+  .search_box button {
+    height: 40px;
+    border: 1px solid rgb(79, 79, 79);
+    border-left: 0px;
+    background-color: rgba(240, 255, 255, 0);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: rgb(129, 129, 129);
+  }
+  
+  .search_box button:hover {
+    background-color: #e3e3e3;
+    color: rgb(36, 36, 36); 
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .features {
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
     height: 40px;
     width: 200px;
-}
-.btn_live > button{
+  }
+  
+  .btn_live > button {
     height: 40px;
     width: 100px;
     background-color: rgb(50, 50, 50);
@@ -45,27 +64,40 @@
     color: rgb(247, 247, 247);
     cursor: pointer;
     font-size: medium;
-    width: 50% ;
-}
-.search_box button{
-    height: 40px;
-    border: 1px solid rgb(79, 79, 79);
-    border-left: 0px;
-    background-color: rgba(240, 255, 255, 0);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: rgb(129, 129, 129);
-}
-.search_box button:hover {
-    background-color: #e3e3e3;
-    color: rgb(36, 36, 36); 
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.btn_live > button:hover {
+    width: 50%;
+  }
+  
+  .btn_live > button:hover {
     background-color: #717471;
     color: black;
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(241, 241, 241, 0.3);
-    transition: transform 0.2s ,background-color 0.2s;
-}
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  
+  /* ✅ Fix for Profile Picture */
+  .channel_pic {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .channel_pic img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  /* Optional hover effect */
+  .channel_pic:hover {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    transition: box-shadow 0.3s;
+  }
+  

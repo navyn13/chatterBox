@@ -7,4 +7,11 @@ const userSchema = new Schema({
     password:String,
     imgAddress:String,
 })
+const roomSchema = new Schema({
+    roomId: String,
+    name:String,
+    ageGroup:String,
+    theme:String,
+})
 exports.User = mongoose.model('User', userSchema);
+exports.Room = mongoose.model('Room', roomSchema);

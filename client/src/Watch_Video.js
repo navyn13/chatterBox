@@ -14,20 +14,31 @@ function Watch_Video() {
     useEffect(() => {
         const handleReceiveMsg = (data) => {
             console.log(data)
-            const p = document.createElement("p");
-            p.innerText = data.username + " : " + data.message;
-            document.querySelector('.messages').appendChild(p);
+            const div = document.createElement("div");
+            const img = document.createElement('img');
+            img.src = data.userImgAddress;
+            img.style.width = '30px'; // Example: Change width to 50 pixels
+            img.style.height = '30px';
+            img.style.marginRight='10px'
+            img.style.borderRadius='50%';
+            div.appendChild(img)
+            const textNode = document.createTextNode(data.username + " : " + data.message);
+            div.appendChild(textNode);
+            div.style.border= '1px solid #000000'
+            div.style.marginBottom='2px'
+            div.style.backgroundColor='aliceblue'
+            document.querySelector('.messages').appendChild(div);
         };
-        socket.on('recieve_msg',handleReceiveMsg)
+
+        socket.on('recieve_msg', handleReceiveMsg)
         return () => {
             socket.off('recieve_msg', handleReceiveMsg);
         };
     }, [socket])
     socket.emit('joinRoom', roomID);
     function sendMessage() {
-        console.log(user)
         document.getElementById('inp_msg').value = '';
-        socket.emit("send_msg", { message: send_message, username: user.username, room: roomID});
+        socket.emit("send_msg", { message: send_message, username: user.username, room: roomID, userImgAddress: user.imgAddress});
         setSendMessage('')
     }
     return (

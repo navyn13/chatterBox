@@ -1,5 +1,6 @@
 const model = require("../models/index");
 const User = model.User;
+const Room = model.Room;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
@@ -48,6 +49,7 @@ async function putObject(filename, contentType) {
 
 
 exports.signup = async (req, res) => {
+  console.log(req.body)
   try {
     const { username, email, password, imgAddress } = req.body;
     const existingUser = await User.findOne({ email: email });
@@ -105,8 +107,8 @@ exports.uploadProfilePic = upload.single('image')
 exports.setProfilePic = async (req, res) => {
   try {
     console.log(req.file)
-    const uniqueName = Date.now() + ".jpeg" 
-    const uploadingUrl  = await putObject(uniqueName, 'image/jpeg');
+    const uniqueName = Date.now() + ".jpeg"
+    const uploadingUrl = await putObject(uniqueName, 'image/jpeg');
     const imageData = fs.readFileSync(req.file.path);
 
     const imgUrl = await fetch(uploadingUrl, {
@@ -116,10 +118,36 @@ exports.setProfilePic = async (req, res) => {
       },
       body: imageData
     })
-    
-    const imgAddress = await getObjectURL("/uploads/user-uploads/"+ uniqueName)
+
+    const imgAddress = await getObjectURL("/uploads/user-uploads/" + uniqueName)
     console.log(imgAddress)
-    res.status(200).send({ pfp: imgAddress});
+    res.status(200).send({ pfp: imgAddress });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+exports.createRoom = async (req, res) => {
+  try {
+    const { roomId, name, ageGroup, theme } = req.body;
+    const newRoom = new Room({
+      roomId,
+      name,
+      ageGroup,
+      theme,
+    });
+    await newRoom.save();
+    res.status(200).json({ success: true, message: "Room created successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+exports.getRooms = async (req, res) => {
+  try {
+    const roomsData = await Room.find();
+    res.status(200).json({ success: true, roomsData });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express()
 const routes = require('./routes/index');
@@ -7,7 +8,6 @@ const bodyParser = require('body-parser');
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io');
-
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,7 +23,8 @@ const io = new Server(server, {
 });
 
 
-mongoose.connect('mongodb+srv://navyn13102003:reliance@cluster0.em2erl6.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGO_URI);
+
 const db = mongoose.connection;
 
 db.on('connected', () => {
@@ -48,6 +49,6 @@ io.on("connection", (socket) => {
 
 
 server.listen(4000, () => {
-    console.log(`Server is running on port 4000}`);
+    console.log(`Server is running on port 4000`);
   });
 

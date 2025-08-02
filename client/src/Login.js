@@ -14,10 +14,9 @@ function Login() {
   const [{ isAuth }, dispatch] = useStateValue();
   function handleSubmit() {
     const userData = {email, password}
-    axios
+      axios
       .post('/login',userData )
       .then((response) => {
-        console.log(response)
         const { token } = response.data;
         localStorage.setItem("jwtToken", token);
         dispatch({
@@ -39,7 +38,7 @@ function Login() {
   return (
     <div className="Login">
       <div className="logo_box">
-        <Link to={'/'}><img src="https://i.imgur.com/m6GZ6jx.png"></img></Link>
+        <Link to={'/'}><img src="https://i.imgur.com/oN050gi.png"></img></Link>
       </div>
       <div className="Login_box">
         <p>Email:</p>
