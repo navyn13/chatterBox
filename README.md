@@ -1,74 +1,89 @@
-# Chatterbox - A Real-Time Chat Application
+# StreamVista - Modern Video Streaming Platform
 
-Welcome to Chatterbox! This is a real-time chat application built with the MERN stack (MongoDB, Express.js, React.js, Node.js). Chatterbox allows users to chat with each other using a unique ID generated in the query parameter. 
+## Overview
+StreamVista is a modern, responsive video streaming platform built with React and Material-UI. It provides a seamless experience for users to stream, share, and interact with video content in real-time.
 
 ## Features
+- 🎨 Modern, responsive UI with Material-UI components
+- 🌓 Dark/Light theme support
+- 🔐 Secure authentication system
+- 🎥 Real-time video streaming
+- 💬 Live chat functionality
+- 🏷️ Theme-based room categorization
+- 📱 Mobile-friendly design
 
-- Real-time messaging: Enjoy seamless communication with other users in real-time.
-- Unique ID: Each user is assigned a unique ID generated in the query parameter, ensuring privacy and security.
-- MERN Stack: Utilizes MongoDB, Express.js, React.js, and Node.js for efficient and scalable development.
+## Tech Stack
+- Frontend:
+  - React.js
+  - Material-UI
+  - Socket.io-client
+  - Axios
+  - React Router
 
-## How to Use
+- Backend:
+  - Node.js
+  - Express
+  - MongoDB
+  - Socket.io
+  - JWT Authentication
 
-1. **Sign Up**: Users are automatically signed up when they access the Chatterbox website.
-2. **Chatting**: Enter the unique ID provided in the query parameter to access your chat room. Start sending messages and enjoy chatting with other users in real-time.
-3. **Privacy**: Your messages are secure, and only users with the same unique ID can access your chat room.
+## Getting Started
 
-## Installation
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- MongoDB
 
-1. Clone the repository:
+### Installation
 
+1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/chatterbox.git
+git clone <repository-url>
+cd streamVista
 ```
 
-2. Navigate to the server directory:
-
+2. Install dependencies for both client and server
 ```bash
-cd chatterbox/server
-```
+# Install client dependencies
+cd client
+npm install
 
-3. Install server dependencies:
-
-```bash
+# Install server dependencies
+cd ../server
 npm install
 ```
 
-4. Start the server:
+3. Set up environment variables
+Create `.env` files in both client and server directories with necessary configurations.
 
+4. Start the development servers
 ```bash
+# Start client (from client directory)
+npm start
+
+# Start server (from server directory)
 npm start
 ```
 
-5. Open another terminal window/tab, navigate to the client directory:
+## Usage
+1. Register/Login to your account
+2. Create a new streaming room or join existing ones
+3. Share your room ID with friends to let them join
+4. Use the theme selector to find rooms based on interests
 
-```bash
-cd ../client
-```
+## UI Features
+- Responsive design that works on all device sizes
+- Intuitive navigation with modern Material-UI components
+- Smooth animations and transitions
+- Accessible color schemes with dark/light mode support
+- Clean and organized layout for better user experience
 
-6. Install client dependencies:
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-```bash
-npm install
-```
+## License
+This project is licensed under the ISC License.
 
-7. Start the client:
-
-```bash
-npm start
-```
-
-8. Open your browser and go to `http://localhost:3000` to access Chatterbox.
-
-## Technologies Used
-
-- MongoDB: NoSQL database for storing user data and messages.
-- Express.js: Web application framework for building robust APIs.
-- React.js: JavaScript library for building user interfaces.
-- Node.js: JavaScript runtime environment for server-side development.
-- WebSocket: Enables real-time, bidirectional communication between clients and servers.
-
-## Credits
-
-- This project was developed by Naveen Krishna Gupta.
+## Author
+Naveen Krishna Gupta
 

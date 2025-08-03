@@ -1,15 +1,51 @@
-import "./Header.css";
-import React, { useState } from "react";
-import PersonIcon from "@mui/icons-material/Person";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  InputBase,
+  Button,
+  Avatar,
+  Box,
+  useTheme,
+  styled,
+  alpha,
+  Select,
+  MenuItem,
+  FormControl
+} from '@mui/material';
+import {
+  Search as SearchIcon,
+  Person as PersonIcon,
+  Brightness4 as DarkIcon,
+  Brightness7 as LightIcon,
+} from '@mui/icons-material';
 import { useStateValue } from './StateProvider';
 import { v4 as uuidv4 } from 'uuid';
 
-function Header() {
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+function Header({ isDarkMode, toggleTheme }) {
   const [{ user, isAuth }, dispatch] = useStateValue();
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState('');
   const [theme, setTheme] = useState('');
+  const muiTheme = useTheme();
 
   function logout() {
     localStorage.removeItem('jwtToken');
@@ -29,66 +65,91 @@ function Header() {
     }
   }
 
-  function goLive() {
-    const myUUID = uuidv4();
-    navigate(`watch?room=${myUUID}`);
-  }
-
   return (
-    <div className="Header">
-      <Link to={'/'} style={{ textDecoration: "none" }}>
-        <div className="logo">
-          <img
-            src="https://i.imgur.com/oN050gi.png"
+    <AppBar position="sticky" elevation={2}>
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Box
+            component="img"
+            src="https://i.ibb.co/Q72pdsZR/Gemini-Generated-Image-sfia4ysfia4ysfia.png"
             alt="logo"
+            sx={{
+              height: 50,
+              maxHeight: { xs: 40, md: 50 },
+              cursor: 'pointer',
+            }}
           />
-        </div>
-      </Link>
+        </Link>
 
-      <div className="search_box">
-        <input
-          className="search_bar"
-          onChange={(e) => {
-            setRoomId(e.target.value);
-          }}
-          placeholder="room Id"
-        />
-        <button onClick={searchVideo}>Search</button>
-        <select
-          className="theme_dropdown"
-          value={theme}
-          onChange={(e) => {
-            if (e.target.value) {
-              navigate(`/rooms?theme=${e.target.value}`);
-            }
-          }}
-        >
-          <option value="">Select Theme</option>
-          <option value="crypto">Crypto</option>
-          <option value="gaming">Gaming</option>
-          <option value="movies">Movies</option>
-          <option value="coding">Coding</option>
-          <option value="studying">Studying</option>
-          <option value="hangout">Hangout</option>
-          <option value="chill">Chill</option>
-          <option value="travelling">Travelling</option>
-        </select>
-      </div>
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, justifyContent: 'center' }}>
+          <Search>
+            <InputBase
+              placeholder="Room ID"
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+              sx={{ ml: 2, flex: 1 }}
+            />
+          </Search>
+          <Button
+            variant="contained"
+            onClick={searchVideo}
+            sx={{ ml: 1 }}
+          >
+            Search
+          </Button>
+          <FormControl sx={{ ml: 2, minWidth: 120 }}>
+            <Select
+              value={theme}
+              onChange={(e) => {
+                if (e.target.value) {
+                  navigate(`/rooms?theme=${e.target.value}`);
+                }
+              }}
+              displayEmpty
+            >
+              <MenuItem value="">Select Theme</MenuItem>
+              <MenuItem value="crypto">Crypto</MenuItem>
+              <MenuItem value="gaming">Gaming</MenuItem>
+              <MenuItem value="movies">Movies</MenuItem>
+              <MenuItem value="coding">Coding</MenuItem>
+              <MenuItem value="studying">Studying</MenuItem>
+              <MenuItem value="hangout">Hangout</MenuItem>
+              <MenuItem value="chill">Chill</MenuItem>
+              <MenuItem value="travelling">Travelling</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
-      <div className="features">
-        <div className="profile">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <IconButton onClick={toggleTheme} color="inherit">
+            {isDarkMode ? <LightIcon /> : <DarkIcon />}
+          </IconButton>
+
           {user ? (
-            <div className="channel_pic">
-              <img onClick={logout} src={user.imgAddress} />
-            </div>
+            <Avatar
+              onClick={logout}
+              src={user.imgAddress}
+              sx={{
+                width: 40,
+                height: 40,
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+            />
           ) : (
-            <Link to={"/signup"} className="person_icon_link">
-              <PersonIcon className="person_icon" />
-            </Link>
+            <IconButton
+              color="inherit"
+              component={Link}
+              to="/signup"
+            >
+              <PersonIcon />
+            </IconButton>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
 
