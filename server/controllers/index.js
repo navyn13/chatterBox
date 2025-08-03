@@ -145,8 +145,10 @@ exports.createRoom = async (req, res) => {
   }
 };
 exports.getRooms = async (req, res) => {
+  console.log("getroom called")
+  console.log(req.query)
   try {
-    const roomsData = await Room.find();
+    const roomsData = await Room.find({ theme: req.query.theme });
     res.status(200).json({ success: true, roomsData });
   } catch (error) {
     console.error(error);

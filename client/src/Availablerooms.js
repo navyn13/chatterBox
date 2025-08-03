@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./Availableroom.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function AvailableRooms() {
   const [rooms, setRooms] = useState([]);   
+  const location = useLocation();
 
   useEffect(() => {
-    console.log("We are goint to find the available rooms lets go")
-    axios.get("http://localhost:4000/api/rooms")
+
+    const params = new URLSearchParams(location.search);
+    const theme = params.get("theme");
+    console.log("Fetching rooms for theme:", theme);
+
+    axios.get(`http://localhost:4000/api/rooms?theme=${theme}` )
       .then((res) => setRooms(res.data.roomsData))
       .catch((err) => console.error("Failed to fetch rooms", err));
-  }, []);
+  }, [location]);
 
   return (
     <div className="available-rooms">

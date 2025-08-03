@@ -2,7 +2,7 @@ import "./Header.css";
 import React, { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate, Link } from "react-router-dom";
-import { useStateValue } from './StateProvider'
+import { useStateValue } from './StateProvider';
 import { v4 as uuidv4 } from 'uuid';
 
 function Header() {
@@ -41,7 +41,7 @@ function Header() {
           <img
             src="https://i.imgur.com/oN050gi.png"
             alt="logo"
-          ></img>
+          />
         </div>
       </Link>
 
@@ -52,7 +52,7 @@ function Header() {
             setRoomId(e.target.value);
           }}
           placeholder="room Id"
-        ></input>
+        />
         <button onClick={searchVideo}>Search</button>
         <select
           className="theme_dropdown"
@@ -73,18 +73,17 @@ function Header() {
           <option value="chill">Chill</option>
           <option value="travelling">Travelling</option>
         </select>
-
       </div>
 
       <div className="features">
         <div className="profile">
           {user ? (
             <div className="channel_pic">
-              <img onClick={logout} src={user.imgAddress}></img>
+              <img onClick={logout} src={user.imgAddress} />
             </div>
           ) : (
-            <Link to={"/signup"} style={{ textDecoration: "none" }}>
-              <PersonIcon style={{ color: "white" }}></PersonIcon>
+            <Link to={"/signup"} className="person_icon_link">
+              <PersonIcon className="person_icon" />
             </Link>
           )}
         </div>

@@ -1,103 +1,132 @@
 .Header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 0px;
-    padding-right: 5px;
-    background-color: rgb(43, 43, 43);
-    height: 50px;
-  }
-  
-  .logo > img {
-    height: 50px;
-    width: 150px;
-  }
-  
-  .search_box {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search_bar {
-    height: 40px;
-    width: 200px;
-    border: 1px solid rgb(79, 79, 79);
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    padding: 0px 10px;
-    font-size: medium;
-    background-color: rgba(255, 255, 255, 0);
-    color: rgb(187, 187, 187);
-    outline: none;
-  }
-  
-  .search_box button {
-    height: 40px;
-    border: 1px solid rgb(79, 79, 79);
-    border-left: 0px;
-    background-color: rgba(240, 255, 255, 0);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: rgb(129, 129, 129);
-  }
-  
-  .search_box button:hover {
-    background-color: #e3e3e3;
-    color: rgb(36, 36, 36); 
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .features {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 40px;
-    width: 200px;
-  }
-  
-  .btn_live > button {
-    height: 40px;
-    width: 100px;
-    background-color: rgb(50, 50, 50);
-    border-radius: 4px;
-    border: 1px solid rgb(126, 126, 126);
-    color: rgb(247, 247, 247);
-    cursor: pointer;
-    font-size: medium;
-    width: 50%;
-  }
-  
-  .btn_live > button:hover {
-    background-color: #717471;
-    color: black;
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(241, 241, 241, 0.3);
-    transition: transform 0.2s, background-color 0.2s;
-  }
-  
-  /* ✅ Fix for Profile Picture */
-  .channel_pic {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  .channel_pic img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  
-  /* Optional hover effect */
-  .channel_pic:hover {
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    transition: box-shadow 0.3s;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #1f1f1f;
+  height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  width: 98%;
+}
+
+.logo > img {
+  height: 50px;
+  width: 150px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.search_box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search_bar {
+  height: 40px;
+  width: 220px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 0 12px;
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search_box button {
+  height: 40px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search_box button:hover {
+  background-color: #45a049;
+}
+
+.theme_dropdown {
+  height: 40px;
+  border-radius: 8px;
+  padding: 0 10px;
+  border: none;
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.theme_dropdown:hover {
+  background-color: #3a3a3a;
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel_pic {
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #4CAF50;
+  transition: box-shadow 0.3s ease;
+}
+
+.channel_pic img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.channel_pic:hover {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.person_icon_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  width: 42px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease;
+}
+
+.person_icon_link:hover {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.person_icon {
+  color: white;
+  font-size: 24px;
+}
+
+button, .search_bar, .theme_dropdown, .channel_pic {
+  transition: all 0.3s ease;
+}
