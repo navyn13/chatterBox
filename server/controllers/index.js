@@ -8,17 +8,8 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const fs = require('fs');
 const multer = require('multer');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
-  },
-  filename: function (req, file, cb) {
-    const uniquePrefix = Date.now()
-    cb(null, uniquePrefix + ' ' + file.originalname)
-  }
-})
-
-const upload = multer({ storage: storage })
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const s3Client = new S3Client({
   region: "ap-south-1",
@@ -106,21 +97,24 @@ exports.uploadProfilePic = upload.single('image')
 
 exports.setProfilePic = async (req, res) => {
   try {
-    console.log(req.file)
-    const uniqueName = Date.now() + ".jpeg"
-    const uploadingUrl = await putObject(uniqueName, 'image/jpeg');
-    const imageData = fs.readFileSync(req.file.path);
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No file uploaded" });
+    }
 
-    const imgUrl = await fetch(uploadingUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'image/jpeg'
-      },
-      body: imageData
-    })
+    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}.jpeg`;
+    const key = `uploads/user-uploads/${uniqueName}`;
 
-    const imgAddress = await getObjectURL("/uploads/user-uploads/" + uniqueName)
-    console.log(imgAddress)
+    const params = {
+      Bucket: 'streamvistabucket',
+      Key: key,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype
+    };
+
+    const command = new PutObjectCommand(params);
+    await s3Client.send(command);
+
+    const imgAddress = await getObjectURL(key);
     res.status(200).send({ pfp: imgAddress });
   } catch (error) {
     console.error(error);
