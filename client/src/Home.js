@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import axios from './config/axios';
+import axios from './axios';
 import {
   Box,
   Typography,
@@ -53,7 +53,7 @@ function Home() {
 
     if (roomType === "public") {
       try {
-        await axios.post("http://localhost:4000/api/rooms", {
+        await axios.post(process.env.REACT_APP_API_URL + "/api/rooms", {
           roomId: myUUID,
           name: roomName,
           ageGroup: ageGroup,

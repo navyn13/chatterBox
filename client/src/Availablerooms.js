@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Availableroom.css";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
+import axios from './axios';
 
 function AvailableRooms() {
   const [rooms, setRooms] = useState([]);   
@@ -13,7 +13,7 @@ function AvailableRooms() {
     const theme = params.get("theme");
     console.log("Fetching rooms for theme:", theme);
 
-    axios.get(`http://localhost:4000/api/rooms?theme=${theme}` )
+    axios.get(`/api/rooms?theme=${theme}` )
       .then((res) => setRooms(res.data.roomsData))
       .catch((err) => console.error("Failed to fetch rooms", err));
   }, [location]);
