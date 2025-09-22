@@ -53,7 +53,7 @@ function Login() {
           type: 'SET_USER',
           user: response.data.user
         });
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('jwtToken', response.data.token);
         navigate('/');
       }
     } catch (error) {

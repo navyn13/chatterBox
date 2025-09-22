@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
+import axios from './config/axios';
 import {
   Box,
   Typography,
@@ -16,6 +16,8 @@ import {
   TextField,
   FormControl,
   InputLabel,
+  Alert,
+  Snackbar,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -37,8 +39,16 @@ function Home() {
   const [roomName, setRoomName] = useState("");
   const [ageGroup, setAgeGroup] = useState("above 18");
   const [roomTheme, setRoomTheme] = useState("crypto");
+  const [openAlert, setOpenAlert] = useState(false);
 
   async function goLive() {
+    const token = localStorage.getItem('jwtToken');
+    
+    if (!token) {
+      setOpenAlert(true);
+      return;
+    }
+
     const myUUID = uuidv4();
 
     if (roomType === "public") {
@@ -58,9 +68,25 @@ function Home() {
     navigate(`watch?room=${myUUID}`);
   }
 
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+    navigate('/login');
+  };
+
   return (
     <Box sx={{ minHeight: 'calc(100vh - 64px)', py: { xs: 4, md: 8 }, backgroundColor: theme.palette.background.default }}>
       <Container maxWidth="lg">
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={3000}
+          onClose={handleCloseAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert onClose={handleCloseAlert} severity="warning" sx={{ width: '100%' }}>
+            Please login or signup to create a room
+          </Alert>
+        </Snackbar>
+        
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
             <StyledPaper elevation={3}>
