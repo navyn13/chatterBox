@@ -12,16 +12,16 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const s3Client = new S3Client({
-  region: "ap-south-1",
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: "AKIAW3MEED3GFSKD7MM5",
-    secretAccessKey: "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"
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY
   }
 })
 
 async function getObjectURL(key) {
   const command = new GetObjectCommand({
-    Bucket: 'streamvistabucket',
+    Bucket: process.env.AWS_BUCKET_NAME,
     Key: key,
   })
   const url = await getSignedUrl(s3Client, command)
