@@ -17,9 +17,14 @@ const socketService = require('./services/socketService');
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-    cors: config.cors || {
-        origin: process.env.CLIENT_URL,
-        methods: ['GET', 'POST']
+    cors: {
+        origin: [
+            "https://chatterbox-inky.vercel.app",
+            "http://localhost:3000"
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true
     }
 });
 
@@ -27,7 +32,15 @@ const io = new Server(server, {
 
 
 // Middleware
-app.use(cors(config.cors));
+app.use(cors({
+    origin: [
+        "https://chatterbox-inky.vercel.app",
+        "http://localhost:3000"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    credentials: true
+}));
 app.use(express.json());
 
 // Test route

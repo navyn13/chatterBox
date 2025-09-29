@@ -13,8 +13,10 @@ const config = {
         bucketName: process.env.AWS_BUCKET_NAME
     },
     cors: {
-        origin: process.env.CLIENT_URL || 'http://localhost:3000',
-        methods: ['GET', 'POST']
+        origin: [process.env.CLIENT_URL],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+        credentials: true
     },
     server: {
         port: process.env.PORT || 4000
