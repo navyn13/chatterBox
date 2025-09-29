@@ -141,6 +141,7 @@ function Signup() {
               id="email"
               label="Email Address"
               name="email"
+              type="email"  
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -165,7 +166,7 @@ function Signup() {
               fullWidth
               sx={{ mb: 2 }}
             >
-              Upload Profile Picture
+              {pfp ? pfp.name : "Upload Profile Picture"}
               <input
                 type="file"
                 hidden

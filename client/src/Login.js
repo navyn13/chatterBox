@@ -47,12 +47,18 @@ function Login() {
         email: email,
         password: password
       });
-      
+
       if (response.data.token) {
         dispatch({
           type: 'SET_USER',
-          user: response.data.user
+          user: response.data.user,
         });
+
+        dispatch({
+          type: 'SET_AUTH',
+          isAuth: true,
+        });
+        console.log(response.data.token)
         localStorage.setItem('jwtToken', response.data.token);
         navigate('/');
       }
