@@ -49,7 +49,7 @@ function Signup() {
     formData.append('image', pfp);
 
     try {
-      const profileResponse = await axios.post('/profile', formData, {
+      const profileResponse = await axios.post('api/profile', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -62,7 +62,7 @@ function Signup() {
         imgAddress: profileResponse.data.pfp,
       };
 
-      const signupResponse = await axios.post('/signup', userData);
+      const signupResponse = await axios.post('api/auth/signup', userData);
       const { token } = signupResponse.data;
       localStorage.setItem('jwtToken', token);
       
@@ -96,7 +96,7 @@ function Signup() {
       <Container component="main" maxWidth="xs">
         <StyledPaper elevation={3}>
           <Box
-             onClick={() => navigate('/')}
+            onClick={() => navigate('/')}
             component="img"
             src="https://i.ibb.co/Q72pdsZR/Gemini-Generated-Image-sfia4ysfia4ysfia.png"
             alt="Logo"

@@ -53,7 +53,7 @@ function Home() {
 
     if (roomType === "public") {
       try {
-        await axios.post(process.env.REACT_APP_API_URL + "/api/rooms", {
+        await axios.post("/api/rooms", {
           roomId: myUUID,
           name: roomName,
           ageGroup: ageGroup,

@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { signup, login, watch, setProfilePic, uploadProfilePic, createRoom, getRooms } = require("../controllers/index.js");
+const authRoutes = require('./authRoutes');
+const profileRoutes = require('./profileRoutes');
+const roomRoutes = require('./roomRoutes');
 
-router.post("/signup", signup)
-.post("/login", login)
-.post("/watch", watch)
-.post('/profile',  uploadProfilePic, setProfilePic)
-.post('/api/rooms', createRoom)
-.get('/api/rooms', getRooms)
+// API routes
+router.use('/auth', authRoutes);
+router.use('/profile', profileRoutes);
+router.use('/rooms', roomRoutes);
+
 module.exports = router;
