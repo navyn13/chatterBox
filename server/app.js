@@ -24,9 +24,16 @@ const io = new Server(server, {
 });
 
 
+
+
 // Middleware
 app.use(cors(config.cors));
 app.use(express.json());
+
+// Test route
+app.get('/', (req, res) => {
+    res.send("Hello from StreamVista server 👋");
+});
 
 // Routes
 app.use('/api', routes);
@@ -42,10 +49,7 @@ app.use((req, res) => {
     });
 });
 
-// Test route
-app.get('/', (req, res) => {
-    res.send("Hello from StreamVista server 👋");
-});
+
 
 // Initialize Socket.io service
 socketService(io);
