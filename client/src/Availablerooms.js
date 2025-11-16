@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Availableroom.css";
 import { Link, useLocation } from "react-router-dom";
 import axios from './axios';
 
