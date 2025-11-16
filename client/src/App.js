@@ -18,6 +18,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [{ }, dispatch] = useStateValue();
   
   const theme = useMemo(
@@ -28,8 +29,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      // Verify token and get user data
-      axios.get('/auth/verify')
+      axios.get('api/auth/verify')
         .then(response => {
           if (response.data.user) {
             dispatch({
@@ -42,15 +42,39 @@ function App() {
             });
           }
         })
-        .catch(() => {
-          localStorage.removeItem('jwtToken');
+        .catch(error => {
+          if (error.response?.status === 401 || error.response?.status === 403) {
+            localStorage.removeItem('jwtToken');
+          }
+        })
+        .finally(() => {
+          setIsLoading(false); // Set loading to false after verification
         });
+    } else {
+      setIsLoading(false); // Set loading to false if no token
     }
   }, [dispatch]);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  // Show loading state while verifying token
+  if (isLoading) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh' 
+        }}>
+          Loading...
+        </div>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>

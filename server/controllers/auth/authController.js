@@ -2,7 +2,7 @@ const { catchAsync } = require("../../middleware/error");
 const { AppError } = require("../../middleware/error");
 const authService = require("../../services/authService");
 const jwt = require('jsonwebtoken');
-const User = require('../../models/index');
+const { User } = require('../../models/index');
 
 exports.verifyToken = catchAsync(async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
