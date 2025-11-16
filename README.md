@@ -40,31 +40,32 @@ StreamVista is a modern, responsive video streaming platform built with React an
 1. Clone the repository
 ```bash
 git clone <repository-url>
-cd streamVista
+cd chatterbox
 ```
 
-2. Install dependencies for both client and server
+2. Install all dependencies (monorepo setup)
 ```bash
-# Install client dependencies
-cd client
-npm install
-
-# Install server dependencies
-cd ../server
+# Install all dependencies from root (workspaces)
 npm install
 ```
 
 3. Set up environment variables
-Create `.env` files in both client and server directories with necessary configurations.
+Create `.env` files in the server directory with necessary configurations.
 
 4. Start the development servers
 ```bash
-# Start client (from client directory)
-npm start
+# Start client (from root directory)
+npm run start:client
 
-# Start server (from server directory)
-npm start
+# Start server (from root directory)
+npm run start:server
+
+# Or use dev mode with auto-reload
+npm run dev:client
+npm run dev:server
 ```
+
+**Note:** This project uses npm workspaces. All dependencies are installed at the root level, and both client and server share the same `node_modules` directory.
 
 ## Usage
 1. Register/Login to your account
