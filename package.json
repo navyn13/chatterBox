@@ -1,7 +1,7 @@
 {
   "name": "chatterbox",
   "version": "1.0.0",
-  "description": "## Overview StreamVista is a modern, responsive video streaming platform built with React and Material-UI. It provides a seamless experience for users to stream, share, and interact with video content in real-time.",
+  "description": "ChatterBox - A modern, responsive real-time chat application built with React and Material-UI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

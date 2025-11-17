@@ -1,6 +1,6 @@
 const config = {
     mongodb: {
-        uri: process.env.MONGO_URI || 'mongodb://localhost:27017/streamvista'
+        uri: process.env.MONGO_URI || 'mongodb://localhost:27017/chatterbox'
     },
     jwt: {
         secret: process.env.JWT_SECRET || 'your-secret-key',
