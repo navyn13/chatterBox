@@ -1,10 +1,112 @@
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client"
 import { useStateValue } from './StateProvider';
-import SendIcon from '@mui/icons-material/Send';
-import { Box, Typography, Avatar, Paper, Alert, Snackbar } from '@mui/material';
+import {
+  Send as SendIcon,
+  Chat as ChatIcon,
+  WifiOff,
+  Wifi,
+  Person,
+} from '@mui/icons-material';
+import {
+  Box,
+  Typography,
+  Avatar,
+  Paper,
+  Alert,
+  Snackbar,
+  TextField,
+  IconButton,
+  Chip,
+  useTheme,
+  useMediaQuery,
+  Fade,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const socket = io(process.env.REACT_APP_SERVER_URL);
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  height: 'calc(100vh - 200px)',
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: theme.spacing(2),
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+  overflow: 'hidden',
+  [theme.breakpoints.down('sm')]: {
+    height: 'calc(100vh - 150px)',
+  },
+}));
+
+const MessagesContainer = styled(Box)(({ theme }) => ({
+  flex: 1,
+  overflowY: 'auto',
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.mode === 'dark' 
+    ? 'rgba(255, 255, 255, 0.02)' 
+    : 'rgba(0, 0, 0, 0.02)',
+  '&::-webkit-scrollbar': {
+    width: '8px',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: 'transparent',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: theme.palette.mode === 'dark' 
+      ? 'rgba(255, 255, 255, 0.2)' 
+      : 'rgba(0, 0, 0, 0.2)',
+    borderRadius: '4px',
+    '&:hover': {
+      background: theme.palette.mode === 'dark' 
+        ? 'rgba(255, 255, 255, 0.3)' 
+        : 'rgba(0, 0, 0, 0.3)',
+    },
+  },
+}));
+
+const MessageBubble = styled(Box)(({ theme, isOwn }) => ({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: theme.spacing(1.5),
+  marginBottom: theme.spacing(2),
+  flexDirection: isOwn ? 'row-reverse' : 'row',
+  animation: 'fadeIn 0.3s ease-in',
+  '@keyframes fadeIn': {
+    from: {
+      opacity: 0,
+      transform: 'translateY(10px)',
+    },
+    to: {
+      opacity: 1,
+      transform: 'translateY(0)',
+    },
+  },
+}));
+
+const MessageContent = styled(Box)(({ theme, isOwn }) => ({
+  maxWidth: '70%',
+  padding: theme.spacing(1.5, 2),
+  borderRadius: theme.spacing(2),
+  backgroundColor: isOwn 
+    ? theme.palette.primary.main 
+    : theme.palette.mode === 'dark' 
+      ? 'rgba(255, 255, 255, 0.1)' 
+      : theme.palette.grey[100],
+  color: isOwn ? 'white' : theme.palette.text.primary,
+  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+  [theme.breakpoints.down('sm')]: {
+    maxWidth: '85%',
+  },
+}));
+
+const InputContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.paper,
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));
 
 function ChatRoom() {
     const [{ user }] = useStateValue();
@@ -88,97 +190,243 @@ function ChatRoom() {
         }
     }
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isOwnMessage = (username) => username === user?.username;
+
     return (
-        <Box className='ChatRoom'>
-            <Paper className='live_chat' elevation={3}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Box>
-                        <Typography variant="h5" gutterBottom>Live Chat</Typography>
-                        <Typography variant="body1" color="textSecondary">Room ID: {roomID}</Typography>
-                    </Box>
-                    <Box sx={{ 
+        <Box 
+            className='ChatRoom' 
+            sx={{ 
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
+            <StyledPaper elevation={3}>
+                {/* Header */}
+                <Box 
+                    sx={{ 
                         display: 'flex', 
+                        justifyContent: 'space-between', 
                         alignItems: 'center', 
-                        gap: 1,
-                        backgroundColor: isConnected ? '#e8f5e9' : '#ffebee',
-                        padding: '4px 12px',
-                        borderRadius: '16px'
-                    }}>
-                        <Box sx={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: '50%',
-                            backgroundColor: isConnected ? '#4caf50' : '#f44336'
-                        }} />
-                        <Typography variant="body2" color={isConnected ? 'success.main' : 'error.main'}>
-                            {isConnected ? 'Connected' : 'Disconnected'}
-                        </Typography>
+                        p: 2.5,
+                        backgroundColor: theme.palette.background.paper,
+                        borderBottom: `1px solid ${theme.palette.divider}`,
+                    }}
+                >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <ChatIcon 
+                            sx={{ 
+                                fontSize: 32, 
+                                color: theme.palette.primary.main 
+                            }} 
+                        />
+                        <Box>
+                            <Typography 
+                                variant="h5" 
+                                sx={{ 
+                                    fontWeight: 600,
+                                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                                }}
+                            >
+                                Live Chat
+                            </Typography>
+                            <Typography 
+                                variant="body2" 
+                                color="text.secondary"
+                                sx={{ 
+                                    fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    mt: 0.5
+                                }}
+                            >
+                                <Person sx={{ fontSize: 14 }} />
+                                Room: {roomID}
+                            </Typography>
+                        </Box>
                     </Box>
+                    <Chip
+                        icon={isConnected ? <Wifi /> : <WifiOff />}
+                        label={isConnected ? 'Connected' : 'Disconnected'}
+                        color={isConnected ? 'success' : 'error'}
+                        variant="outlined"
+                        sx={{
+                            fontWeight: 600,
+                            borderWidth: 2,
+                            '& .MuiChip-icon': {
+                                fontSize: 18,
+                            },
+                        }}
+                    />
                 </Box>
                 
+                {/* Error Snackbar */}
                 <Snackbar 
                     open={!!error} 
                     autoHideDuration={6000} 
                     onClose={() => setError('')}
                     anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 >
-                    <Alert onClose={() => setError('')} severity="error" sx={{ width: '100%' }}>
+                    <Alert 
+                        onClose={() => setError('')} 
+                        severity="error" 
+                        sx={{ 
+                            width: '100%',
+                            borderRadius: 2,
+                        }}
+                    >
                         {error}
                     </Alert>
                 </Snackbar>
-                <Box className='messages' ref={messagesEndRef}>
-                    {messages.map((msg) => (
-                        <Box key={msg.id || Date.now() + Math.random()} sx={{
-                            display: 'flex',
-                            alignItems: 'start',
-                            p: 1,
-                            mb: 1,
-                            backgroundColor: msg.username === user?.username ? '#e3f2fd' : '#f5f5f5',
-                            borderRadius: 2,
-                            maxWidth: '100%',
-                            wordBreak: 'break-word'
-                        }}>
-                            <Avatar 
-                                src={msg.userImgAddress}
-                                sx={{ width: 32, height: 32, mr: 1 }}
-                            />
-                            <Box sx={{ flex: 1 }}>
-                                <Typography variant="subtitle2" color="primary">
-                                    {msg.username}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {msg.message}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    ))}
-                </Box>
 
-                <form
-                    className='msg_block'
+                {/* Messages Container */}
+                <MessagesContainer ref={messagesEndRef}>
+                    {messages.length === 0 ? (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%',
+                                color: theme.palette.text.secondary,
+                            }}
+                        >
+                            <ChatIcon sx={{ fontSize: 64, mb: 2, opacity: 0.5 }} />
+                            <Typography variant="h6" color="text.secondary">
+                                No messages yet
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                Start the conversation!
+                            </Typography>
+                        </Box>
+                    ) : (
+                        messages.map((msg, index) => {
+                            const isOwn = isOwnMessage(msg.username);
+                            return (
+                                <Fade in key={msg.id || index} timeout={300}>
+                                    <MessageBubble isOwn={isOwn}>
+                                        <Avatar 
+                                            src={msg.userImgAddress}
+                                            sx={{ 
+                                                width: { xs: 36, sm: 40 }, 
+                                                height: { xs: 36, sm: 40 },
+                                                border: `2px solid ${theme.palette.primary.main}`,
+                                            }}
+                                        >
+                                            {msg.username?.charAt(0).toUpperCase()}
+                                        </Avatar>
+                                        <MessageContent isOwn={isOwn}>
+                                            <Typography 
+                                                variant="subtitle2" 
+                                                sx={{ 
+                                                    fontWeight: 600,
+                                                    mb: 0.5,
+                                                    fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                                    color: isOwn ? 'white' : theme.palette.primary.main,
+                                                }}
+                                            >
+                                                {msg.username}
+                                            </Typography>
+                                            <Typography 
+                                                variant="body2"
+                                                sx={{
+                                                    wordBreak: 'break-word',
+                                                    fontSize: { xs: '0.875rem', sm: '1rem' },
+                                                    lineHeight: 1.5,
+                                                }}
+                                            >
+                                                {msg.message}
+                                            </Typography>
+                                            {msg.timestamp && (
+                                                <Typography 
+                                                    variant="caption" 
+                                                    sx={{ 
+                                                        display: 'block',
+                                                        mt: 0.5,
+                                                        opacity: 0.7,
+                                                        fontSize: '0.7rem',
+                                                    }}
+                                                >
+                                                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </Typography>
+                                            )}
+                                        </MessageContent>
+                                    </MessageBubble>
+                                </Fade>
+                            );
+                        })
+                    )}
+                </MessagesContainer>
+
+                {/* Input Container */}
+                <InputContainer
+                    component="form"
                     onSubmit={(e) => {
                         e.preventDefault();
                         sendMessage();
                     }}
                 >
-                    <input
-                        id='inp_msg'
+                    <TextField
+                        fullWidth
                         value={send_message}
                         onChange={(e) => setSendMessage(e.target.value)}
                         placeholder="Type a message..."
+                        variant="outlined"
+                        size={isMobile ? "small" : "medium"}
+                        disabled={!isConnected}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: 3,
+                                backgroundColor: theme.palette.background.default,
+                                '& fieldset': {
+                                    borderColor: theme.palette.divider,
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: theme.palette.primary.main,
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: theme.palette.primary.main,
+                                    borderWidth: 2,
+                                },
+                            },
+                        }}
+                        InputProps={{
+                            sx: {
+                                fontSize: { xs: '0.875rem', sm: '1rem' },
+                            },
+                        }}
                     />
-                    <button 
-                        type='submit' 
-                        disabled={!send_message.trim()}
-                        style={{ 
-                            opacity: send_message.trim() ? 1 : 0.6,
-                            cursor: send_message.trim() ? 'pointer' : 'not-allowed'
+                    <IconButton
+                        type="submit"
+                        disabled={!send_message.trim() || !isConnected}
+                        color="primary"
+                        sx={{
+                            backgroundColor: theme.palette.primary.main,
+                            color: 'white',
+                            width: { xs: 44, sm: 56 },
+                            height: { xs: 44, sm: 56 },
+                            '&:hover': {
+                                backgroundColor: theme.palette.primary.dark,
+                                transform: 'scale(1.05)',
+                            },
+                            '&:disabled': {
+                                backgroundColor: theme.palette.action.disabledBackground,
+                                color: theme.palette.action.disabled,
+                            },
+                            transition: 'all 0.2s ease',
                         }}
                     >
-                        Send <SendIcon />
-                    </button>
-                </form>
-            </Paper>
+                        <SendIcon />
+                    </IconButton>
+                </InputContainer>
+            </StyledPaper>
         </Box>
     );
 }

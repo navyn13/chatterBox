@@ -14,6 +14,7 @@ import {
 import { styled } from '@mui/material/styles';
 import axios from './axios';
 import { useStateValue } from './StateProvider';
+import Logo from './Logo';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -95,21 +96,12 @@ function Signup() {
     >
       <Container component="main" maxWidth="xs">
         <StyledPaper elevation={3}>
-          <Box
-            onClick={() => navigate('/')}
-            component="img"
-            src="https://i.ibb.co/Q72pdsZR/Gemini-Generated-Image-sfia4ysfia4ysfia.png"
-            alt="Logo"
-            sx={{
-              width: '200px',
-              height: 'auto',
-              mb: 4,
-              transition: 'transform 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.05)',
-              },
-            }}
-          />
+          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
+            <Logo 
+              height={80}
+              onClick={() => navigate('/')}
+            />
+          </Box>
 
           <Typography component="h1" variant="h4" gutterBottom>
             Create Account
